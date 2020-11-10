@@ -2,12 +2,10 @@ export interface IProps {
     item: IFeed
 }
 
-export interface IAuthor {
-    id: number
-    name: string
+export interface IComments {
     avatar: string
+    comment: string
 }
-
 export interface IFeed{
     id: number
     image: string
@@ -15,6 +13,8 @@ export interface IFeed{
     aspectRatio: number
     description: string
     authoriId: number
-    author: IAuthor
+    author: string
     isFavorite?: boolean
+    likes: string[]
+    comments: IComments[]
 }

@@ -5,11 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { IFeed } from '../../components/Post/interface';
 
 // import { Container } from './styles';
-
 const { width, height } = Dimensions.get('screen')
 
-const IMAGE_WIDTH = width * 0.86
-const IMAGE_HEIGHT = IMAGE_WIDTH * 1.5
+const IMAGE_WIDTH = width * 0.9
+const IMAGE_HEIGHT = IMAGE_WIDTH * 1.05
 const VISIBLE_ITEMS = 4
 
 const Feed: React.FC = () => {
@@ -48,6 +47,11 @@ const Feed: React.FC = () => {
     reactiveAnimated.setValue(newIndex)
   }, [activeIndex, reactiveAnimated])
 
+  const translateYDummyView = animatedIndex.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, height * 0.15, 0]
+  })
+
   React.useEffect(() => {
     loadPage(1, true)
 
@@ -57,6 +61,8 @@ const Feed: React.FC = () => {
       useNativeDriver: true
     }).start()
   }, [])
+
+
 
   return (
     <FlingGestureHandler
@@ -105,7 +111,7 @@ const Feed: React.FC = () => {
                 {
                   zIndex: feed.length - index,
                   left: -IMAGE_WIDTH / 2,
-                  top: -IMAGE_HEIGHT / 2
+                  top: -IMAGE_HEIGHT / 1.3
                 }
               ]              
               return (
@@ -123,7 +129,7 @@ const Feed: React.FC = () => {
               })
               const opacity = animatedIndex.interpolate({
                 inputRange,
-                outputRange: [0.1, 1, 0]
+                outputRange: [0, 1, 0]
               })
               const scale = animatedIndex.interpolate({
                 inputRange,
@@ -142,14 +148,19 @@ const Feed: React.FC = () => {
                     onPress={() => { }}
                   >
                     <Image source={{ uri: item.image }} style={styles.image} />
-                    <View style={{ position: 'absolute', left: 20, bottom: 20 }}>
-                      <Text style={{ fontSize: 48, color: '#FFF' }} >{index}</Text>
-                    </View>
                   </TouchableOpacity>
                 </Animated.View>
               )
             }}
           />
+          
+          <Animated.View
+            style={[styles.dummy, 
+            {transform: [{translateY: translateYDummyView }]}
+            ]}
+          >
+
+          </Animated.View>
         </SafeAreaView>
       </FlingGestureHandler>
     </FlingGestureHandler>
@@ -162,6 +173,16 @@ const styles = StyleSheet.create({
     height: IMAGE_HEIGHT,
     resizeMode: "cover",
     borderRadius: 16
+  },
+  dummy: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    backgroundColor: '#FFF',
+    // height: height * 0.15,
+    width: width,
+    borderTopRightRadius: 32,
+    borderTopLeftRadius: 32
   }
 })
 
