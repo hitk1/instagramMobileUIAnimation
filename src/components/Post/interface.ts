@@ -3,7 +3,8 @@ export interface IProps {
 }
 
 export interface IComments {
-    avatar: string
+    author:string
+    profile: string
     comment: string
 }
 export interface IFeed{

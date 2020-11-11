@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Dimensions, Text, Image, StyleSheet, Animated } from 'react-native';
-import { IFeed } from '../../components/Post/interface';
+import { IComments, IFeed } from '../../components/Post/interface';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Logo from '../../assets/instagram-darken.svg'
+import { SharedElement } from 'react-navigation-shared-element';
 
 const { width, height } = Dimensions.get('screen')
 const IMAGE_WIDTH = width
@@ -30,8 +31,8 @@ const FeedTwo: React.FC = ({ navigation }) => {
 
   }, [total, feed])
 
-  const goToComments = React.useCallback((coments: any[]) => {
-    navigation.push('Comments', { coments })
+  const goToComments = React.useCallback((comments: IComments[]) => {
+    navigation.navigate('Comments', { comments })
   }, [])
 
   React.useEffect(() => {
@@ -39,7 +40,7 @@ const FeedTwo: React.FC = ({ navigation }) => {
   }, [])
 
   return (
-    <View>
+    <View style={{ flex: 1}}>
       <View style={styles.header}>
         <Logo width={110} height={70} />
       </View>
@@ -77,8 +78,8 @@ const FeedTwo: React.FC = ({ navigation }) => {
         }}
       />
       {feed.map((item, index) => {
-
         const inputRange = [(index - 0.5) * width, index * width, (index + 0.5) * width]
+
         const opacity = scrollX.interpolate({
           inputRange,
           outputRange: [0, 1, 0]
@@ -167,7 +168,9 @@ const FeedTwo: React.FC = ({ navigation }) => {
           </View>
         )
       })}
-      <View />
+      <SharedElement id={`general.background`}>
+        <Animated.View style={styles.dummySharedView} />
+      </SharedElement>
     </View>
   );
 }
@@ -262,7 +265,27 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '3%',
     alignItems: 'center',
+  },
+  dummySharedView: {
+    position: 'absolute',
+    transform: [{ translateY: height}],
+    width,
+    height,
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingTop: 50,
+    padding: 15
   }
 })
+
+// FeedTwo.sharedElements = (navigation, otherNavigation, showing) => {
+//   return [
+//     {
+//       id: 'general.background'
+//     }
+//   ];
+// };
+
 
 export default FeedTwo;
