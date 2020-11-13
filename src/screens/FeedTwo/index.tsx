@@ -279,13 +279,4 @@ const styles = StyleSheet.create({
   }
 })
 
-// FeedTwo.sharedElements = (navigation, otherNavigation, showing) => {
-//   return [
-//     {
-//       id: 'general.background'
-//     }
-//   ];
-// };
-
-
 export default FeedTwo;

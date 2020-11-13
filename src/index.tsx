@@ -4,7 +4,6 @@ import { enableScreens } from 'react-native-screens'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { NavigationContainer } from '@react-navigation/native'
 
-import Feed from './screens/Feed'
 import FeedTwo from './screens/FeedTwo'
 import Comments from './screens/Comments'
 
